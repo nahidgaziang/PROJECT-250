@@ -7,23 +7,28 @@ ReaDefy is a modern, web-based intelligent PDF reader designed to supercharge yo
 ## 🚀 Key Features
 
 ### 📖 Advanced PDF Viewer
+
 - **Smooth Rendering**: High-performance PDF viewing using PDF.js.
 - **Text Selection**: Select text to interact with the AI tools.
 - **Annotation Tools**: Highlight text and draw freehand on your documents.
 - **Navigation**: Easy page jumping, zooming, and scrolling.
 
 ### 🤖 AI-Powered Study Tools
+
 Powered by **Groq API** (Llama-3.3-70b):
+
 - **🌍 Translate**: Instantly translate selected text into 10+ languages.
 - **📝 Summarize**: Get concise summaries of long paragraphs or sections (Short/Medium/Long).
 - **❓ Quiz Generation**: Automatically generate interactive multiple-choice quizzes (with explanations!) from your study material to test your knowledge.
 
 ### 💬 Global Chat & Collaboration
+
 - **Real-Time Chat**: Discuss documents with other users in the global chat panel.
 - **Live Updates**: Messages sync instantly across sessions.
 - **User Identity**: See who's talking with authenticated usernames.
 
 ### 🔐 User & Data Management
+
 - **Secure Authentication**: JWT-based Signup and Login system.
 - **Study History**: Automatically saves your translations, summaries, and quiz results.
 - **Persistence**: Annotations are saved locally per PDF.
@@ -45,9 +50,11 @@ Powered by **Groq API** (Llama-3.3-70b):
 The easiest way to run ReaDefy is using Docker. This sets up the Frontend, Backend, and Database automatically.
 
 ### Prerequisites
+
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed.
 
 ### Steps
+
 1. **Clone the repository** (if you haven't already).
 2. **Configure Environment**:
    ```bash
@@ -56,11 +63,14 @@ The easiest way to run ReaDefy is using Docker. This sets up the Frontend, Backe
    ```
 3. **Run**:
    ```bash
-   docker-compose up
+   docker-compose up --build
    ```
 4. **Access the App**:
    - **Frontend**: [http://localhost](http://localhost)
    - **Backend API**: [http://localhost:3001](http://localhost:3001)
+   - **Database**: `localhost:3307` (User: `readefy_user`, Password: `readefy123`)
+
+   > **Note**: If `localhost:3001` is already in use, you may need to stop other services or containers (like `valerix-order-service`) before running.
 
 See [DOCKER.md](./DOCKER.md) for advanced deployment details.
 
@@ -71,10 +81,12 @@ See [DOCKER.md](./DOCKER.md) for advanced deployment details.
 If you prefer running locally without Docker:
 
 ### Prerequisites
+
 - Node.js (v18+)
 - MySQL Server (e.g., via XAMPP) running on port 3306
 
 ### 1. Database Setup
+
 1. Start MySQL.
 2. Run the schema scripts:
    ```bash
@@ -83,6 +95,7 @@ If you prefer running locally without Docker:
    ```
 
 ### 2. Backend Setup
+
 ```bash
 cd server
 cp .env.example .env
@@ -90,9 +103,11 @@ cp .env.example .env
 npm install
 npm start
 ```
-*Server runs at `http://localhost:3001`*
+
+_Server runs at `http://localhost:3001`_
 
 ### 3. Frontend Setup
+
 ```bash
 # In the project root
 cp .env.example .env
@@ -100,7 +115,8 @@ cp .env.example .env
 npm install
 npm run dev
 ```
-*App runs at `http://localhost:5173`*
+
+_App runs at `http://localhost:5173`_
 
 ---
 
@@ -129,6 +145,7 @@ PROJECT_250/
 ## 👥 Team Members
 
 Prepared by:
+
 - **Nahid Gazi** - 2022331048
 - **Md. Mahdiul Hasan** - 2022331076
 - **Jonaki Rani Das** - 2022331038
