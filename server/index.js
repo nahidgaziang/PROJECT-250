@@ -13,7 +13,8 @@ const PORT = process.env.PORT || 3001;
 // Middleware
 app.use(cors({
     origin: process.env.CORS_ORIGIN || '*',
-    credentials: true
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
