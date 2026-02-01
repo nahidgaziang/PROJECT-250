@@ -1,0 +1,78 @@
+version: '3.8'
+
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: readefy-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword}
+      MYSQL_DATABASE: readefy_db
+      MYSQL_USER: readefy_user
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-readefy123}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ./database/chat_schema.sql:/docker-entrypoint-initdb.d/02-chat_schema.sql
+    networks:
+      - readefy-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 10
+
+  # Backend API Server
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: readefy-backend
+    restart: unless-stopped
+    environment:
+      PORT: 3001
+      DB_HOST: mysql
+      DB_USER: readefy_user
+      DB_PASSWORD: ${MYSQL_PASSWORD:-readefy123}
+      DB_NAME: readefy_db
+      DB_PORT: 3306
+      JWT_SECRET: ${JWT_SECRET:-please_change_this_secret_in_production}
+      CORS_ORIGIN: http://localhost
+    ports:
+      - "3001:3001"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - readefy-network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3001/api/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Frontend React App
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: readefy-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - readefy-network
+    environment:
+      - NODE_ENV=production
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  readefy-network:
+    driver: bridge

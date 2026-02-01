@@ -1,0 +1,26 @@
+# Docker-specific ignores
+.env.docker
+docker-compose.override.yml
+
+# Development files
+node_modules/
+npm-debug.log*
+.vscode/
+.idea/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+server/.env
+
+# Build outputs
+dist/
+build/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
