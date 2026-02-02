@@ -7,14 +7,8 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install build dependencies for bcrypt (required for Alpine)
-RUN apk add --no-cache python3 make g++
-
 # Install dependencies
 RUN npm ci --only=production
-
-# Remove build dependencies to reduce image size
-RUN apk del python3 make g++
 
 # Copy application files
 COPY . .
