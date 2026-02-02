@@ -25,18 +25,73 @@ function LoginPage() {
   };
 
   return (
-    <div style={{ padding: '2rem', maxWidth: '400px', margin: '5rem auto', backgroundColor: 'white', borderRadius: '8px' }}>
-      <h2>Log In to Readefy</h2>
-      <form onSubmit={handleLogin}>
-        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required style={{ width: '100%', padding: '0.5rem', margin: '0.5rem 0' }} />
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required style={{ width: '100%', padding: '0.5rem', margin: '0.5rem 0' }} />
-        <button type="submit" className="primary" style={{ width: '100%' }}>Log In</button>
-      </form>
-      {error && <p style={{ color: 'var(--danger-color)', marginTop: '1rem' }}>{error}</p>}
-      <p style={{ marginTop: '1rem' }}>
-        Need an account? <Link to="/signup">Sign Up</Link>
-      </p>
-      <ToastContainer />  
+    <div className="auth-page-container">
+      {/* Floating decorative shapes */}
+      <div className="auth-floating-shape"></div>
+      <div className="auth-floating-shape"></div>
+      <div className="auth-floating-shape"></div>
+      
+      <div className="auth-card">
+        {/* Header */}
+        <div className="auth-header">
+          <div className="auth-icon">🎓</div>
+          <h2 className="auth-title">Welcome Back</h2>
+          <p className="auth-subtitle">Sign in to your account</p>
+        </div>
+
+        {/* Form */}
+        <form onSubmit={handleLogin} className="auth-form">
+          {/* Email Input */}
+          <div className="auth-input-group">
+            <label htmlFor="email" className="auth-label">Email Address</label>
+            <div className="auth-input-wrapper">
+              <span className="auth-input-icon">✉️</span>
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="nahid8@gmail.com"
+                required
+                className="auth-input"
+              />
+            </div>
+          </div>
+
+          {/* Password Input */}
+          <div className="auth-input-group">
+            <label htmlFor="password" className="auth-label">Password</label>
+            <div className="auth-input-wrapper">
+              <span className="auth-input-icon">🔒</span>
+              <input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••"
+                required
+                className="auth-input"
+              />
+            </div>
+          </div>
+
+          {/* Error Message */}
+          {error && <div className="auth-error">{error}</div>}
+
+          {/* Submit Button */}
+          <button type="submit" className="auth-button auth-button-login">
+            Sign In
+          </button>
+        </form>
+
+        {/* Footer */}
+        <div className="auth-footer">
+          Don't have an account? <Link to="/signup" className="auth-link">Sign Up</Link>
+        </div>
+      </div>
+
+      {/* Toast Container for notifications */}
+      <ToastContainer />
     </div>
   );
 }
