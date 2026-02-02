@@ -13,11 +13,7 @@ RUN npm ci
 # Copy application files
 COPY . .
 
-# Accept build arguments for Vite
-ARG VITE_API_URL
-ARG VITE_GROQ_API_KEY
-
-# Build the application (Vite will use ARG as ENV during build)
+# Build the application
 RUN npm run build
 
 # Production stage with nginx
