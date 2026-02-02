@@ -13,6 +13,14 @@ RUN npm ci
 # Copy application files
 COPY . .
 
+# Build Arguments
+ARG VITE_API_URL
+ARG VITE_GROQ_API_KEY
+
+# Set Environment Variables
+ENV VITE_API_URL=$VITE_API_URL
+ENV VITE_GROQ_API_KEY=$VITE_GROQ_API_KEY
+
 # Build the application
 RUN npm run build
 

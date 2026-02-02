@@ -13,6 +13,9 @@ function QuizModal({ quizData, onClose }) {
   };
 
   const handleSubmit = () => {
+    // Prevent multiple submissions
+    if (isSubmitted) return;
+    
     let correctCount = 0;
     let totalMCQs = 0;
 
@@ -20,20 +23,39 @@ function QuizModal({ quizData, onClose }) {
       if (item.type === 'multiple_choice') {
         totalMCQs++;
         const userAnswer = answers[index];
-        if (userAnswer && userAnswer.trim().toLowerCase() === item.answer.trim().toLowerCase()) {
+        // Safely compare answers by converting both to string first
+        const safeUserAnswer = String(userAnswer || "").trim().toLowerCase();
+        const safeCorrectAnswer = String(item.answer || "").trim().toLowerCase();
+        
+        if (safeUserAnswer === safeCorrectAnswer) {
           correctCount++;
         }
       }
     });
 
+    // Update state together to ensure synchronous update
     setScore({ correct: correctCount, total: totalMCQs });
     setIsSubmitted(true);
+    
+    // Scroll to show results after a tiny delay to ensure DOM updates
+    setTimeout(() => {
+      const resultsElement = document.getElementById('quizResultDisplay');
+      if (resultsElement) {
+        resultsElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }, 100);
   };
 
   const getOptionClass = (item, index, option) => {
     if (!isSubmitted) return "";
-    const isCorrect = option.trim().toLowerCase() === item.answer.trim().toLowerCase();
-    const isSelected = answers[index] && option.trim().toLowerCase() === answers[index].trim().toLowerCase();
+    
+    // Safely convert to string for comparison
+    const safeOption = String(option || "").trim().toLowerCase();
+    const safeCorrectAnswer = String(item.answer || "").trim().toLowerCase();
+    const safeUserAnswer = String(answers[index] || "").trim().toLowerCase();
+
+    const isCorrect = safeOption === safeCorrectAnswer;
+    const isSelected = answers[index] && safeOption === safeUserAnswer;
 
     if (isCorrect) return "correct";
     if (isSelected && !isCorrect) return "incorrect";
@@ -104,8 +126,22 @@ function QuizModal({ quizData, onClose }) {
         </div>
         <div className="modal-footer">
           {!isSubmitted && (
-            <button id="submitQuizBtn" className="primary" onClick={handleSubmit}>
+            <button 
+              id="submitQuizBtn" 
+              className="primary" 
+              onClick={handleSubmit}
+              disabled={Object.keys(answers).length === 0}
+              style={{
+                opacity: Object.keys(answers).length === 0 ? 0.5 : 1,
+                cursor: Object.keys(answers).length === 0 ? 'not-allowed' : 'pointer'
+              }}
+            >
               Submit Answers
+            </button>
+          )}
+          {isSubmitted && (
+            <button className="primary" onClick={onClose}>
+              Close Quiz
             </button>
           )}
         </div>

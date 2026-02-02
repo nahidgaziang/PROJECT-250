@@ -13,10 +13,12 @@ dist-ssr
 *.local
 
 # Environment variables - NEVER commit these!
+# Environment variables - NEVER commit these!
 .env
 .env.local
 .env.development
 .env.production
+.env.docker
 server/.env
 
 # Editor directories and files

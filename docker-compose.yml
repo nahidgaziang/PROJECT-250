@@ -66,6 +66,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=${VITE_API_URL:-http://localhost:3001/api}
+        - VITE_GROQ_API_KEY=${VITE_GROQ_API_KEY}
     container_name: readefy-frontend
     restart: unless-stopped
     ports:
